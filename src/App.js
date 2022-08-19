@@ -132,8 +132,8 @@ const App = () => {
   const sequence = async () => {
     const x = await getAccount()
     await getBalance(x.contract, x.defaultAccount)
-    const brgy = await getBarangays(x.contract, x.defaultAccount)
-    await getRequests(x.contract, x.defaultAccount, brgy)
+    // const brgy = await getBarangays(x.contract, x.defaultAccount)
+    // await getRequests(x.contract, x.defaultAccount, brgy)
     // await createBarangay(x.contract, x.defaultAccount)
   }
 
