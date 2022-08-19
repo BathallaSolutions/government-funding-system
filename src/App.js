@@ -158,7 +158,7 @@ const App = () => {
 
   return (
     <div style={{ width:"95%", height:"95vh", margin: 10 }}>
-      Account: {defaultAccount ? defaultAccount : ''}
+      {/* Account: {defaultAccount ? defaultAccount : ''} */}
       <div style={{position:'absolute', zIndex: 9999, top: 30, right: 45, width:60, height:15, backgroundColor:'white'}}>
         {/* HIDE REACTFLOW */}
       </div>
