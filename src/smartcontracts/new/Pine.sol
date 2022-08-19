@@ -7,5 +7,7 @@ import "./Barangay.sol";
 import "./Request.sol";
 
 contract Pine is ERC20, Ownable, Barangay, Request {
-    constructor() ERC20("Pine", "PINE") {}
+    constructor() ERC20("Pine1", "PINE1") {
+        _mint(msg.sender, 1000000 * 10 ** decimals());
+    }
 }
