@@ -5,10 +5,13 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
+import CircularProgress from '@mui/material/CircularProgress';
 import { useSelector, useDispatch } from 'react-redux'
 import { setRequest } from '../redux/GlobalReducer'
-const Pusher = require("pusher");
-
+import {
+  createRequest
+} from "../smartcontracts/api";
 
 const Content = () => {
   const dispatch = useDispatch()
@@ -17,7 +20,10 @@ const Content = () => {
   const amount = useSelector((state) => state.global.data.request.amount)
   const description = useSelector((state) => state.global.data.request.description)
   const request = useSelector((state) => state.global.data.request)
-  
+  const [loading, setLoading] = React.useState(false)
+  const [message, setMessage] = React.useState("")
+  const [messageStatus, setMessageStatus] = React.useState(false)
+
   const handleOnchange = (e) => {
     let name = e.target.name
     let value = e.target.value
@@ -28,23 +34,26 @@ const Content = () => {
     }))
   }
 
-  const createRequest =  async () => {
-    await contract.methods.createRequest(amount, description).send({ from: defaultAccount });
+  const submit =  async () => {
+    setLoading(true)
+    try {
+      setMessage("")
+      setMessageStatus(false)
 
-    const pusher = new Pusher({
-      appId: "1465289",
-      key: "2bce154a64e869202f16",
-      secret: "9b9c22a4aaba14a2ab42",
-      cluster: "ap1",
-      useTLS: false,
-    });
-    pusher.trigger("request", "createRequest", {
-      message: "hello world",
-    });
-  }
+      const logs = await createRequest(amount, description, defaultAccount, contract)
+      if(logs.status){
+        dispatch(setRequest({...request,amount:0}))
+        dispatch(setRequest({...request,description:""}))
+        setMessage("Successfully sent a request to the mayor")
+      }else{
+        setMessage("Failed to sent request, something must be wrong.")
+      }
+    } catch (error) {
+      setMessage("Failed to sent request, something must be wrong.")
+      setMessageStatus(true)
+    }
 
-  const submit = () => {
-    createRequest()
+    setLoading(false)
   }
 
   return (
@@ -53,40 +62,47 @@ const Content = () => {
       <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
         Create Request
       </Typography>
-
-      <div style={{ border: "1px solid" }}>
-        <div
-          style={{ padding: 10 }}
-          >
-          <div
-            style={{ display: 'flex', width: '100%' }}
-          >
-            Amount 
-            <input
-              style={{ marginLeft: 10, width: '100%' }}
-              type="text" 
-              name="amount" 
-              value={amount}
-              onChange={handleOnchange}
-            />
-          </div>
-          <div
-            style={{ display: 'flex', marginTop: 10 }}
-          >
-            Description 
-            <input 
-              style={{ marginLeft: 10, width: '100%' }}
-              type="text" 
-              name="description" 
-              value={description}
-              onChange={handleOnchange}
-            />
-          </div>
-        </div>
+      <div>
+      <TextField
+        disabled={loading}
+        fullWidth
+        label="Amount"
+        id="outlined-size-small"
+        defaultValue="Small"
+        size="small"
+        name="amount" 
+        value={amount}
+        onChange={handleOnchange}
+      /> 
+      </div>
+      <br/>
+      <div>
+      <TextField
+        disabled={loading}
+        fullWidth
+        label="Description"
+        id="outlined-size-small"
+        defaultValue="Small"
+        size="small"
+        name="description" 
+        value={description}
+        onChange={handleOnchange}
+      />
       </div>
     </CardContent>
     <CardActions>
-      <Button size="small" onClick={() => submit()}>Send</Button>
+      {loading ?
+        <div style={{textAlign:'center', width: '100%'}}>
+          <CircularProgress />
+        </div>
+        :
+        <Button size="small" onClick={() => submit()}>Send</Button>
+      }
+      
+      <div style={{textAlign:'center', color: messageStatus ? "red" : "green"}}>
+        {message}
+      </div>
+      
     </CardActions>
   </React.Fragment>
   )

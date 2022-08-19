@@ -1,9 +1,4 @@
-// Peter: 0x3D3c66ea40d8068E245b0247F9d7Ab17472D635C
-// Kenn: 0xDb796cAb1E1085510423fD6353e5a8C45E2b840a
-// Ron: 0xd04f6D397D07E216F465cB88C9F10482f45F7A4D
-// Rigie: 0xEC5D87Fa50B16A141196436Ae64fd3BCa336B9E1
-
-export const tokenAddress = "0x5F0DD0b715e302798B0dCFc8378832b65dAC9D8F"
+export const tokenAddress = "0x2d55982294A6Df540a0C2cF390a4DBf423c909A9"
 export const abi = [
 	{
 		"inputs": [],
@@ -152,6 +147,16 @@ export const abi = [
 	},
 	{
 		"inputs": [
+			{
+				"internalType": "string",
+				"name": "status",
+				"type": "string"
+			},
+			{
+				"internalType": "address",
+				"name": "manager",
+				"type": "address"
+			},
 			{
 				"internalType": "uint256",
 				"name": "amount",
@@ -392,35 +397,6 @@ export const abi = [
 		],
 		"name": "transferOwnership",
 		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "reqId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "description",
-				"type": "string"
-			}
-		],
-		"name": "updateRequest",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
 		"stateMutability": "nonpayable",
 		"type": "function"
 	},
@@ -693,6 +669,16 @@ export const abi = [
 						"type": "uint256"
 					},
 					{
+						"internalType": "address",
+						"name": "manager",
+						"type": "address"
+					},
+					{
+						"internalType": "string",
+						"name": "status",
+						"type": "string"
+					},
+					{
 						"internalType": "uint256",
 						"name": "amount",
 						"type": "uint256"
@@ -705,6 +691,11 @@ export const abi = [
 					{
 						"internalType": "address",
 						"name": "author",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "requestor",
 						"type": "address"
 					},
 					{
@@ -823,148 +814,6 @@ export const abi = [
 				"internalType": "uint256",
 				"name": "",
 				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "brgyId",
-				"type": "uint256"
-			}
-		],
-		"name": "showBarangay",
-		"outputs": [
-			{
-				"components": [
-					{
-						"internalType": "uint256",
-						"name": "brgyId",
-						"type": "uint256"
-					},
-					{
-						"internalType": "string",
-						"name": "status",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "name",
-						"type": "string"
-					},
-					{
-						"internalType": "uint256",
-						"name": "number",
-						"type": "uint256"
-					},
-					{
-						"internalType": "string",
-						"name": "tokenaddress",
-						"type": "string"
-					},
-					{
-						"internalType": "uint256",
-						"name": "positionx",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "positiony",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "width",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "height",
-						"type": "uint256"
-					},
-					{
-						"internalType": "address",
-						"name": "author",
-						"type": "address"
-					},
-					{
-						"internalType": "enum Barangay.DeactivatedBrgy",
-						"name": "deleted",
-						"type": "uint8"
-					},
-					{
-						"internalType": "uint256",
-						"name": "created",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "updated",
-						"type": "uint256"
-					}
-				],
-				"internalType": "struct Barangay.BarangayStruct",
-				"name": "",
-				"type": "tuple"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "reqId",
-				"type": "uint256"
-			}
-		],
-		"name": "showRequest",
-		"outputs": [
-			{
-				"components": [
-					{
-						"internalType": "uint256",
-						"name": "reqId",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "amount",
-						"type": "uint256"
-					},
-					{
-						"internalType": "string",
-						"name": "description",
-						"type": "string"
-					},
-					{
-						"internalType": "address",
-						"name": "author",
-						"type": "address"
-					},
-					{
-						"internalType": "enum Request.DeactivatedReq",
-						"name": "deleted",
-						"type": "uint8"
-					},
-					{
-						"internalType": "uint256",
-						"name": "created",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "updated",
-						"type": "uint256"
-					}
-				],
-				"internalType": "struct Request.RequestStruct",
-				"name": "",
-				"type": "tuple"
 			}
 		],
 		"stateMutability": "view",

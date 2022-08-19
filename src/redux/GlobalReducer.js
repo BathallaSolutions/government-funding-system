@@ -13,9 +13,14 @@ export const GlobalReducer = createSlice({
         amount: "",
         description: ""
       },
+      requestLoading: false,
+      requestMessage: "",
     }
   },
   reducers: {
+    setGlobal: (state, action) => {
+      state.data = action.payload
+    },
     setBarangays: (state, action) => {
       state.data.barangays = action.payload
     },
@@ -37,7 +42,7 @@ export const GlobalReducer = createSlice({
   },
 })
 
-export const { setBarangays, setRequests, setAccount, setContract,setBalance,setRequest } = GlobalReducer.actions
+export const { setBarangays, setRequests, setAccount, setContract,setBalance,setRequest, setGlobal } = GlobalReducer.actions
 
 
 export default GlobalReducer.reducer
