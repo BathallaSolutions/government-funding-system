@@ -7,7 +7,7 @@ import BasicTable from './BasicTable';
 
 const List = () => {
   return (<React.Fragment>
-      <CardContent>
+      <CardContent sx={{ height: 350, overflowY: 'scroll' }}>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
           Request List
         </Typography>

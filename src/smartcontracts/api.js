@@ -80,9 +80,9 @@ export const getBarangays =  async (contract) => {
 }
 
 export const createBarangay =  async (contract, defaultAccount) => {
-  await contract.methods.createBarangay('captain','ron',1,officials.ron,1060, 1230,100,80).send({ from: defaultAccount });
-  await contract.methods.createBarangay('captain','peter',2,officials.peter,1000, 1350,100,80).send({ from: defaultAccount });
-  await contract.methods.createBarangay('captain','rigie',3,officials.rigie,1070, 1170,100,80).send({ from: defaultAccount });
+  await contract.methods.createBarangay('captain','ron',1,officials.ron,1570, 1240,100,80).send({ from: defaultAccount });
+  await contract.methods.createBarangay('captain','peter',2,officials.peter,1520, 1350,100,80).send({ from: defaultAccount });
+  await contract.methods.createBarangay('captain','rigie',3,officials.rigie,1570, 1170,100,80).send({ from: defaultAccount });
 }
 
 export const getBalance =  async (contract, defaultAccount) => {

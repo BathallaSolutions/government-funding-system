@@ -67,6 +67,8 @@ const App = () => {
     const requestsHold = await getRequests(x.contract, barangaysHold.brgyOnly)
     mutableGlobal.requests = requestsHold
 
+    // await createBarangay(x.contract, x.defaultAccount)
+
     mutableGlobal.requestLoading=  false
     mutableGlobal.requestMessage=  ""
     dispatch(setGlobal(mutableGlobal))
@@ -93,7 +95,7 @@ const App = () => {
     <div style={{ width:"95%", height:"95vh", margin: 10 }}>
 
       Account: {defaultAccount ? defaultAccount : ''}
-      <div style={{position:'absolute', zIndex: 9999, top: 30, right: 45, width:60, height:15, backgroundColor:'white'}}>
+      <div style={{position:'absolute', zIndex: 9999, top: 30, right: 75, width:60, height:15, backgroundColor:'white'}}>
         {/* HIDE REACTFLOW */}
       </div>
 
@@ -113,7 +115,7 @@ const App = () => {
         }
       </div>
 
-      <div style={{position:'absolute', zIndex: 9999, bottom: 15, right: 50, color: 'green'}}>
+      <div style={{position:'absolute', zIndex: 9999, bottom: 15, right: 80, color: 'green'}}>
         {global.requestMessage  }
       </div>
       {mayor&&<MatRequestList/>}
