@@ -35,6 +35,7 @@ const Content = () => {
   }
 
   const submit =  async () => {
+    let mutablerequest = JSON.parse(JSON.stringify(request))
     setLoading(true)
     try {
       setMessage("")
@@ -42,8 +43,8 @@ const Content = () => {
 
       const logs = await createRequest(amount, description, defaultAccount, contract)
       if(logs.status){
-        dispatch(setRequest({...request,amount:0}))
-        dispatch(setRequest({...request,description:""}))
+        mutablerequest.amount = ""
+        mutablerequest.description= ""
         setMessage("Successfully sent a request to the mayor")
       }else{
         setMessage("Failed to sent request, something must be wrong.")
@@ -53,12 +54,13 @@ const Content = () => {
       setMessageStatus(true)
     }
 
+    dispatch(setRequest(mutablerequest))
     setLoading(false)
   }
 
   return (
     <React.Fragment>
-    <CardContent>
+    <CardContent className="animate__animated animate__fadeIn">
       <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
         Create Request
       </Typography>

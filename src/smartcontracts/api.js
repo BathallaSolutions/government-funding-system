@@ -2,19 +2,22 @@ import Web3 from 'web3'
 import BigNumber from "bignumber.js"
 import officials from "./officials";
 import {abi,tokenAddress} from "./smartcontracts";
-import { nodes as initialNodes } from '../initial-elements';
 
 export const getRequests =  async (contract, brgy) => {
+  brgy = JSON.parse(JSON.stringify(brgy))
   let combine = await contract.methods.getRequests().call();
   let hold = []
   combine.map((o) => {
-    const profile = brgy.find((data) => {
+    const profile = brgy.find((data, key) => {
       if(data.data.tokenAddress===o['requestor']){
+        data.data.index = key
         return data.data
       }
       return false
     })
 
+    console.log("profile",profile)
+    console.log("o",o)
     if(o[1] === "0x0000000000000000000000000000000000000000"){
       return o
     }
@@ -27,6 +30,7 @@ export const getRequests =  async (contract, brgy) => {
       loading: false,
       deleteMessage: false,
       successMessage: false,
+      barangayIndex: profile?.data?.index
     })
     return o
   })
@@ -64,6 +68,7 @@ export const getBarangays =  async (contract) => {
         positiony: o['positiony'],
         width: o['width'],
         height: o['height'],
+        isRequesting: false
       },
       draggable: false,
       selectable: false,
@@ -74,9 +79,7 @@ export const getBarangays =  async (contract) => {
     return o
   })
   
-  combine = initialNodes.concat(brgyOnly)
-
-  return {nodes:combine, brgyOnly}
+  return brgyOnly 
 }
 
 export const createBarangay =  async (contract, defaultAccount) => {

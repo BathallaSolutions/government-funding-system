@@ -8,9 +8,9 @@ import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import Skeleton from '@mui/material/Skeleton';
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector, batch } from 'react-redux'
 import Snackbar from '@mui/material/Snackbar';
-import { setRequests } from '../redux/GlobalReducer'
+import { setRequests, setBarangays, setTrigger } from '../redux/GlobalReducer'
 import {
   getRequests,
   deleteRequest, 
@@ -26,9 +26,10 @@ export default function BasicTable() {
   const dispatch = useDispatch()
   const requests = useSelector((state) => state.global.data.requests)
   const contract = useSelector((state) => state.global.data.contract)
+  const barangays = useSelector((state) => state.global.data.barangays)
   const defaultAccount = useSelector((state) => state.global.data.defaultAccount)
   const global = useSelector((state) => state.global.data)
-
+  
   const [deleteMessage, setDeleteMessage] = React.useState("")
   const [successMessage, setSuccessMessage] = React.useState("")
   
@@ -39,6 +40,7 @@ export default function BasicTable() {
     mutablerequests[key].successMessage= ""
 
     dispatch(setRequests(mutablerequests))
+    
     mutablerequests = JSON.parse(JSON.stringify(requests))
 
     setSuccessMessage("")
@@ -67,27 +69,34 @@ export default function BasicTable() {
 
     dispatch(setRequests(mutablerequests))
     mutablerequests = JSON.parse(JSON.stringify(requests))
+    let mutablegbarangays = JSON.parse(JSON.stringify(barangays))
 
     setSuccessMessage("")
     setDeleteMessage("")
 
-    // mutableGlobal = JSON.parse(JSON.stringify(global))
-    
+    let updatedRequest = mutablerequests
+    let deletedRequest = mutablerequests
+
     // eslint-disable-next-line 
     const transferLog = await transfer(tokenAddress, amount, defaultAccount, contract)
     const responseDelete = await deleteRequest(reqId, defaultAccount, contract)
     if(responseDelete){
       setSuccessMessage("Successfully Transferred money")
-      mutablerequests[key].successMessage = "Successfully Transferred money"
-      let requestsHold = await getRequests(global.contract, global.barangays)
-      mutablerequests = requestsHold
+      deletedRequest[key].successMessage = "Successfully Transferred money"
+      updatedRequest = await getRequests(global.contract, global.barangays)
     }else{
-      mutablerequests[key].deleteMessage = "Failed Transferred money"
+      updatedRequest[key].deleteMessage = "Failed Transferred money"
       setDeleteMessage("Failed Transferred money")
+      return false
     }
 
-    mutablerequests[key].loading =  false
-    dispatch(setRequests(mutablerequests))
+    mutablegbarangays[deletedRequest[key].barangayIndex].data.isRequesting = false
+
+    batch(() => {
+      dispatch(setRequests(updatedRequest))
+      dispatch(setBarangays(mutablegbarangays))
+      dispatch(setTrigger())
+    })
   }
 
   let dopen = deleteMessage ? true:false
@@ -124,12 +133,12 @@ export default function BasicTable() {
                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                       >
                         <TableCell component="th" scope="row">
-                          {row.data.name.charAt(0).toUpperCase() + row.data.name.slice(1)} from Barangay #{row.data.number} is requesting money amounting to <span style={{color:"red"}}>PINE {row.amount}</span> <br/>
+                          {row?.data?.name.charAt(0).toUpperCase() + row?.data?.name.slice(1)} from Barangay #{row?.data?.number} is requesting money amounting to <span style={{color:"red"}}>PINE {row.amount}</span> <br/>
                           Reason: <span style={{color:"darkblue"}}>{row.description}</span>
                           {!row.loading ?
                               <div style={{textAlign:'right'}}>
                                 <Button disabled={row.loading} variant="text" color="error" onClick={() => reject(row.reqId, key)}>Reject</Button>
-                                <Button disabled={row.loading} variant="text" color="success" onClick={() => accept(row.data.tokenAddress, row.amount, row.reqId, key)}>Accept</Button>
+                                <Button disabled={row.loading} variant="text" color="success" onClick={() => accept(row?.data?.tokenAddress, row.amount, row.reqId, key)}>Accept</Button>
                               </div>
                             :
                               <div style={{textAlign:'center'}}>

@@ -19,7 +19,7 @@ const List = () => {
 
 export default function MatRequestList() {
   return (
-    <Box style={{position:'absolute', zIndex: 9999, top: 120, left: 50, width: 300}}>
+    <Box className="animate__animated animate__fadeIn" style={{position:'absolute', zIndex: 9999, top: 120, left: 50, width: 300}}>
       <Card variant="outlined"><List/></Card>
     </Box>
   );

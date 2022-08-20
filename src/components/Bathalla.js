@@ -7,7 +7,7 @@ import bathalla from "../assets/bathalla.png";
 const card = (
   <React.Fragment>
     <CardContent>
-      <img src={bathalla} alt={'bathalla'} width="300" />
+      <img className="animate__animated animate__fadeIn" src={bathalla} alt={'bathalla'} width="300" />
     </CardContent>
   </React.Fragment>
 );

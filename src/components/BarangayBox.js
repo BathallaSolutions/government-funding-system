@@ -2,13 +2,24 @@ import Card from '@mui/material/Card';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Man from '../assets/man.png';
+import Badge from '@mui/material/Badge';
+import InfoIcon from '@mui/icons-material/Info';
 
 const BarangayBox = ({ data }) => {
   return (
     <Card sx={{ padding: 0.5, backgroundColor: '#fff', border: '1px solid' }}>
-{/* fcd216 - yellow */}
-{/* 0038a8 - blue */}
-        <Box style={{ position: 'relative', display: 'flex' }}>
+        {/* fcd216 - yellow */}
+        {/* 0038a8 - blue */}
+        {data.isRequesting &&
+          <div 
+            className="animate__animated animate__heartBeat animate__infinite infinite" 
+            style={{position:'absolute', zIndex: 9999, top: -1, right: -1, fontSize:5, }}
+          >
+            <Badge badgeContent={<InfoIcon fontSize="small" style={{color:'green'}}/>} >
+            </Badge>
+          </div>
+        }
+        <Box className="animate__animated animate__bounceIn" style={{ position: 'relative', display: 'flex' }}>
           <img
             className="m-auto" 
             style={{ width: 30, margin: 'auto' }} 

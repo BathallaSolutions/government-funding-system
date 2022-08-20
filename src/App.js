@@ -19,6 +19,9 @@ import {getRequests, getBalance, getAccount, getBarangays,
 import './App.css';
 import officials from "./smartcontracts/officials";
 import Skeleton from '@mui/material/Skeleton';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
+import ListOfTransactions from './components/ListOfTransactions';
 
 const onInit = (reactFlowInstance) => {
 	reactFlowInstance.setViewport({ x: 0, y: 0, zoom: .5 });
@@ -34,6 +37,8 @@ const App = () => {
   const dispatch = useDispatch()
   const defaultAccount = useSelector((state) => state.global.data.defaultAccount)
   const balance = useSelector((state) => state.global.data.balance)
+  const barangays = useSelector((state) => state.global.data.barangays)
+  const requests = useSelector((state) => state.global.data.requests)
   const global = useSelector((state) => state.global.data)
   
   // eslint-disable-next-line
@@ -44,6 +49,16 @@ const App = () => {
     bathalla: Bathalla
    }), []);
 
+  const getBarangayRequest = async (requests, barangays) => {
+    let mutablebrgy = JSON.parse(JSON.stringify(barangays))
+    const newdata = mutablebrgy.map((brgy) => {
+      let findReq = requests.find((req) => req.data.tokenAddress === brgy.data.tokenAddress)
+      brgy.data.isRequesting = (findReq?.reqId) ? true : false
+
+      return brgy
+    })
+    return newdata
+  }
 
   const sequence = async () => {
     let mutableGlobal = JSON.parse(JSON.stringify(global))
@@ -61,16 +76,19 @@ const App = () => {
     mutableGlobal.balance = balanceHold
 
     const barangaysHold = await getBarangays(x.contract)
-    setNodes(barangaysHold.nodes)
-    mutableGlobal.barangays = barangaysHold.brgyOnly
 
-    const requestsHold = await getRequests(x.contract, barangaysHold.brgyOnly)
+    const requestsHold = await getRequests(x.contract, barangaysHold)
     mutableGlobal.requests = requestsHold
 
+    const withRequestIconBrgy = await getBarangayRequest(requestsHold, barangaysHold)
     // await createBarangay(x.contract, x.defaultAccount)
 
     mutableGlobal.requestLoading=  false
     mutableGlobal.requestMessage=  ""
+    mutableGlobal.barangays = withRequestIconBrgy
+
+    const newnodes = initialNodes.concat(withRequestIconBrgy)
+    setNodes(newnodes)
     dispatch(setGlobal(mutableGlobal))
   }
 
@@ -78,6 +96,17 @@ const App = () => {
     sequence()
   // eslint-disable-next-line
   }, [])
+
+  useEffect(() => {
+    const self = async () => {
+      const withRequestIconBrgy = await getBarangayRequest(requests, barangays)
+      const newnodes = nodes.concat(withRequestIconBrgy)
+      setNodes(newnodes)
+    }
+    self()
+  // eslint-disable-next-line
+  }, [global.trigger])
+
 
   let mayor = false
   if(defaultAccount === officials.mayor){
@@ -93,6 +122,7 @@ const App = () => {
 
   return (
     <div style={{ width:"95%", height:"95vh", margin: 10 }}>
+      <ListOfTransactions/>  
 
       Account: {defaultAccount ? defaultAccount : ''}
       <div style={{position:'absolute', zIndex: 9999, top: 30, right: 75, width:60, height:15, backgroundColor:'white'}}>
@@ -101,10 +131,14 @@ const App = () => {
 
       {!global.requestLoading && 
         <div style={{position:'absolute', zIndex: 9999, top: 80, left: 500}}>
-          {mayor ? 'Mayors View' : 'Barangays View'}
+          <Paper elevation={3} style={{padding:'5px 25px 5px 25px'}}>
+            <Typography variant="h5" gutterBottom>
+            {mayor ? 'Mayors View' : 'Barangays View'}
+            </Typography>
+          </Paper>
         </div>
       }
-      <div style={{position:'absolute', zIndex: 9999, bottom: 30, left: 60}}>
+      <div class="animate__animated animate__fadeIn animate__delay-2s" style={{position:'absolute', zIndex: 9999, bottom: 30, left: 60}}>
         Balance: 
         {global.requestLoading ?
             <Skeleton animation="wave" />
