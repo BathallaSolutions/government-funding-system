@@ -17,16 +17,16 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
+function createData(description, date) {
+  return { description, date};
 }
 
 const rows = [
-  createData('Rigie bough materials worth 1000000'),
-  createData('Authorized supplier withdrawn 130000'),
-  createData('Ron request for 90000000 for bridge repairs'),
-  createData('Peter request for 13000000 for bridge construction'),
-  createData('Rigie request for 450000000 for Fun run marathon'),
+  createData('Rakuten race withdrawn PINE450,000.00 to ₱450,000', 'August 21, 2022 @ 1:59pm'),
+  createData('Rigie bought materials worth PINE450,000.00 from Authorized supplier Rakuten', 'August 21, 2022 @ 1:01pm'),
+  createData('Ron requested amount PINE900,000.00 for bridge repairs', 'August 18, 2022 @ 3:49pm'),
+  createData('Peter requested amount PINE130,000.00 for bridge construction', 'August 18, 2022 @ 10:11am'),
+  createData('Rigie requested amount PINE450,0000.00 for Race marathon', 'August 18, 2022 @ 9:31pm'),
 ];
 
 export default function ListOfTransactions() {
@@ -65,17 +65,21 @@ export default function ListOfTransactions() {
                 <TableHead>
                   <TableRow>
                     <TableCell>Description</TableCell>
+                    <TableCell>Date</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {rows.map((row) => (
                     <TableRow
-                      key={row.name}
+                      key={row.description}
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                      style={{width:500}}
+                      style={{width:1000}}
                     >
-                      <TableCell component="th" scope="row">
-                        {row.name}
+                      <TableCell style={{width:500}} component="th" scope="row">
+                        {row.description}
+                      </TableCell>
+                      <TableCell style={{width:500}} component="th" scope="row">
+                        {row.date}
                       </TableCell>
                     </TableRow>
                   ))}

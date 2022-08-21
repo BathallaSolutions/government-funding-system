@@ -15,7 +15,7 @@ const BarangayBox = ({ data }) => {
             className="animate__animated animate__heartBeat animate__infinite infinite" 
             style={{position:'absolute', zIndex: 9999, top: -1, right: -1, fontSize:5, }}
           >
-            <Badge badgeContent={<InfoIcon fontSize="small" style={{color:'green'}}/>} >
+            <Badge badgeContent={<InfoIcon fontSize="small" style={{color:'yellow'}}/>} >
             </Badge>
           </div>
         }

@@ -12,7 +12,6 @@ contract Barangay {
     mapping(address => uint256) public barangayOf;
 
     enum DeactivatedBrgy { NO, YES }
-    enum Deactivated { NO, YES }
 
     struct BarangayStruct {
         uint256 brgyId;
@@ -97,7 +96,7 @@ contract Barangay {
         return true;
     }
 
-    function getBarangay() external view returns (BarangayStruct[] memory) {
+    function getBarangays() external view returns (BarangayStruct[] memory) {
         return activeBarangay;
     }
 }

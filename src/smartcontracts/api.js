@@ -46,7 +46,8 @@ export const transfer = async (tokenAddress, amount, defaultAccount, contract) =
 }
 
 export const createRequest =  async (amount, description, defaultAccount, contract) => {
-  return await contract.methods.createRequest('pending', officials.mayor, amount, description).send({ from: defaultAccount });
+  let am = String(amount+'000000000000000000')
+  return await contract.methods.createRequest('pending', officials.mayor, parseInt(am), description).send({ from: defaultAccount });
 }
 
 export const getBarangays =  async (contract) => {

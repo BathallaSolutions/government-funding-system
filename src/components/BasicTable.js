@@ -17,6 +17,7 @@ import {
   transfer
 } from "../smartcontracts/api";
 import MuiAlert from '@mui/material/Alert';
+import Zoom from '../assets/zoom.png';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -134,7 +135,7 @@ export default function BasicTable() {
                       >
                         <TableCell component="th" scope="row">
                           {row?.data?.name.charAt(0).toUpperCase() + row?.data?.name.slice(1)} from Barangay #{row?.data?.number} is requesting money amounting to <span style={{color:"red"}}>PINE {row.amount}</span> <br/>
-                          Reason: <span style={{color:"darkblue"}}>{row.description}</span>
+                          Reason: <span style={{color:"darkblue"}}>{row.description} <img src={Zoom} width="10" style={{cursor:'pointer'}} /></span>
                           {!row.loading ?
                               <div style={{textAlign:'right'}}>
                                 <Button disabled={row.loading} variant="text" color="error" onClick={() => reject(row.reqId, key)}>Reject</Button>

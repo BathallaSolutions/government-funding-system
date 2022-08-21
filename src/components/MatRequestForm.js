@@ -60,12 +60,12 @@ const Content = () => {
 
   return (
     <React.Fragment>
-    <CardContent className="animate__animated animate__fadeIn">
+    <CardContent className="animate__animated animate__fadeIn" >
       <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
         Create Request
       </Typography>
       <div>
-      <TextField
+      {/* <TextField
         disabled={loading}
         fullWidth
         label="Amount"
@@ -75,7 +75,17 @@ const Content = () => {
         name="amount" 
         value={amount}
         onChange={handleOnchange}
-      /> 
+      />  */}
+      <div class="input-group" style={{width:400}}>
+        <span class="input-group-text">PINE</span>
+        <input 
+          type="number" class="form-control" placeholder='Amount' aria-label="Amount (to the nearest dollar)"
+          name="amount" 
+          value={amount}
+          onChange={handleOnchange}
+        />
+        <span class="input-group-text">.000000000000000000</span>
+      </div>
       </div>
       <br/>
       <div>
