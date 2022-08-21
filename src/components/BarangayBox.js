@@ -8,8 +8,6 @@ import InfoIcon from '@mui/icons-material/Info';
 const BarangayBox = ({ data }) => {
   return (
     <Card sx={{ padding: 0.5, backgroundColor: '#fff', border: '1px solid' }}>
-        {/* fcd216 - yellow */}
-        {/* 0038a8 - blue */}
         {data.isRequesting &&
           <div 
             className="animate__animated animate__heartBeat animate__infinite infinite" 
