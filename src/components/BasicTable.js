@@ -134,8 +134,8 @@ export default function BasicTable() {
                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                       >
                         <TableCell component="th" scope="row">
-                          {row?.data?.name.charAt(0).toUpperCase() + row?.data?.name.slice(1)} from Barangay #{row?.data?.number} is requesting money amounting to <span style={{color:"red"}}>PINE {row.amount}</span> <br/>
-                          Reason: <span style={{color:"darkblue"}}>{row.description} <img src={Zoom} width="10" style={{cursor:'pointer'}} /></span>
+                          {row?.data?.name.charAt(0).toUpperCase() + row?.data?.name.slice(1)} from Barangay #{row?.data?.number} is requesting money amounting to <span style={{color:"red"}}>PINE {row.amount.replace('000000000000000000', '')}</span> <br/>
+                          Reason: <span style={{color:"darkblue"}}>{row.description}  <img src={Zoom} width="10" style={{cursor:'pointer'}} /></span>
                           {!row.loading ?
                               <div style={{textAlign:'right'}}>
                                 <Button disabled={row.loading} variant="text" color="error" onClick={() => reject(row.reqId, key)}>Reject</Button>
